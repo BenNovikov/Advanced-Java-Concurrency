@@ -12,8 +12,8 @@ public class Operations {
             public void run() {
                 try {
                     //keep only one of following lines uncommented
-//                    transfer(a, b, 500);
-                    transferReentrantLock(a, b, 500);
+                    transfer(a, b, 500);
+//                    transferReentrantLock(a, b, 500);
                 }
                 catch (InsufficientFundsException e) {
                     e.printStackTrace();
@@ -23,8 +23,8 @@ public class Operations {
 
         try {
             //keep only one of following lines uncommented
-//            transfer(b, a, 300);
-            transferReentrantLock(b, a, 300);
+            transfer(b, a, 300);
+//            transferReentrantLock(b, a, 300);
         }
         catch (InsufficientFundsException e) {
             e.printStackTrace();
@@ -41,14 +41,14 @@ public class Operations {
 //        Object lock2 = acc2;
         //comment these two lines if previous two are uncommented
         Object lock1 = acc1.hashCode() > acc2.hashCode() ? acc1 : acc2;
-        Object lock2 = acc2.hashCode() >= acc1.hashCode() ? acc2 : acc1;
+        Object lock2 = acc2.hashCode() <= acc1.hashCode() ? acc2 : acc1;
 
         try {
             synchronized (lock1) {
-                System.out.println("lock1 locked");
+                System.out.println(lock1 + "locked");
                 Thread.sleep(1000);
                 synchronized (lock2) {
-                    System.out.println("lock2 locked");
+                    System.out.println(lock2 + "locked");
                     acc1.withdraw(amount);
                     acc2.deposit(amount);
                 }
