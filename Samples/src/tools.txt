@@ -1,0 +1,3 @@
+jps - Java processes running
+jstack #### - Java stack for process ####
+jconsole #### - Java monitoring and management console
