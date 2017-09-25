@@ -1,3 +1,6 @@
+import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class Operations {
@@ -29,6 +32,21 @@ public class Operations {
         catch (InsufficientFundsException e) {
             e.printStackTrace();
         }
+
+        ExecutorService service = Executors.newFixedThreadPool(3);
+        for (int i = 0; i < 10; i++) {
+            service.submit(
+                    new Transfer(a, b, new Random().nextInt(400))
+            );
+        }
+
+        service.shutdown();
+        try {
+            service.awaitTermination(30, TimeUnit.SECONDS);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     //1.locks ranged by hashCode()
@@ -45,10 +63,10 @@ public class Operations {
 
         try {
             synchronized (lock1) {
-                System.out.println(lock1 + "locked");
+//                System.out.println(lock1 + "locked");
                 Thread.sleep(1000);
                 synchronized (lock2) {
-                    System.out.println(lock2 + "locked");
+//                    System.out.println(lock2 + "locked");
                     acc1.withdraw(amount);
                     acc2.deposit(amount);
                 }
@@ -72,10 +90,10 @@ public class Operations {
         try {
             if (acc1.getLock().tryLock(WAIT_SEC, TimeUnit.SECONDS)) {
                 try {
-                    System.out.println(acc1.getLock());
+//                    System.out.println(acc1.getLock());
                     if (acc2.getLock().tryLock(WAIT_SEC, TimeUnit.SECONDS)) {
                         try {
-                            System.out.println(acc2.getLock());
+//                            System.out.println(acc2.getLock());
                             Thread.sleep(1000);
                             acc1.withdraw(amount);
                             acc2.deposit(amount);
@@ -89,8 +107,8 @@ public class Operations {
                 }
             }
             else {
-                acc1.incFailedTransferCount();
-                acc2.incFailedTransferCount();
+                acc1.incFailCount();
+                acc2.incFailCount();
                 System.out.println(String.format(
                         "Transfer from %s to %s UNSUCCESSFUL", acc1.toString(), acc2.toString()
                 ));

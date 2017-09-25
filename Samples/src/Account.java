@@ -7,7 +7,7 @@ public class Account {
     private Lock lock = new ReentrantLock();
     private AtomicInteger failCounter = new AtomicInteger(0);
 
-    public void incFailedTransferCount() {
+    public void incFailCount() {
         failCounter.incrementAndGet();
     }
 
