@@ -1,6 +1,8 @@
+import java.io.PrintStream;
+
 public class InsufficientFundsException extends Exception {
     @Override
-    public void printStackTrace() {
-        super.printStackTrace();
+    public String getMessage() {
+        return "No funds available!";
     }
 }

@@ -3,7 +3,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 public class Transfer implements Callable<Boolean> {
-    private static final int WAIT_SEC = 4; //time in seconds to wait to lock
+    private static final int WAIT_SEC = 3; //time in seconds to wait to lock
 
     private Account accountFrom;
     private Account accountTo;
@@ -50,7 +50,7 @@ public class Transfer implements Callable<Boolean> {
             }
         }
         catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
         System.out.println(String.format(

@@ -11,6 +11,10 @@ public class Account {
         failCounter.incrementAndGet();
     }
 
+    public int getFailCounter() {
+        return failCounter.get();
+    }
+
     public Account(int balance) {
         this.balance = balance;
     }
@@ -41,8 +45,6 @@ public class Account {
 
     @Override
     public String toString() {
-        return "Account{" + this.hashCode() +
-                " balance=" + balance +
-                '}';
+        return "Account{" + this.hashCode() + " balance=" + balance + '}';
     }
 }

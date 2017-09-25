@@ -1,6 +1,3 @@
-import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class Operations {
@@ -19,7 +16,7 @@ public class Operations {
 //                    transferReentrantLock(a, b, 500);
                 }
                 catch (InsufficientFundsException e) {
-                    e.printStackTrace();
+                    System.out.println(e.getMessage());
                 }
             }
         }).start();
@@ -30,22 +27,7 @@ public class Operations {
 //            transferReentrantLock(b, a, 300);
         }
         catch (InsufficientFundsException e) {
-            e.printStackTrace();
-        }
-
-        ExecutorService service = Executors.newFixedThreadPool(3);
-        for (int i = 0; i < 10; i++) {
-            service.submit(
-                    new Transfer(a, b, new Random().nextInt(400))
-            );
-        }
-
-        service.shutdown();
-        try {
-            service.awaitTermination(30, TimeUnit.SECONDS);
-        }
-        catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -94,8 +76,8 @@ public class Operations {
                     if (acc2.getLock().tryLock(WAIT_SEC, TimeUnit.SECONDS)) {
                         try {
 //                            System.out.println(acc2.getLock());
-                            Thread.sleep(1000);
                             acc1.withdraw(amount);
+                            Thread.sleep(500);
                             acc2.deposit(amount);
                         }
                         finally {
