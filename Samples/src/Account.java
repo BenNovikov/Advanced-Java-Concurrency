@@ -1,9 +1,15 @@
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Account {
     private int balance;
     private Lock lock = new ReentrantLock();
+    private AtomicInteger failCounter = new AtomicInteger(0);
+
+    public void incFailedTransferCount() {
+        failCounter.incrementAndGet();
+    }
 
     public Account(int balance) {
         this.balance = balance;

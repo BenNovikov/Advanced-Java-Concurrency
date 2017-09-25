@@ -41,7 +41,7 @@ public class Operations {
 //        Object lock2 = acc2;
         //comment these two lines if previous two are uncommented
         Object lock1 = acc1.hashCode() > acc2.hashCode() ? acc1 : acc2;
-        Object lock2 = acc2.hashCode() <= acc1.hashCode() ? acc2 : acc1;
+        Object lock2 = acc1.hashCode() > acc2.hashCode() ? acc2 : acc1;
 
         try {
             synchronized (lock1) {
@@ -89,7 +89,11 @@ public class Operations {
                 }
             }
             else {
-                //Error waiting lock
+                acc1.incFailedTransferCount();
+                acc2.incFailedTransferCount();
+                System.out.println(String.format(
+                        "Transfer from %s to %s UNSUCCESSFUL", acc1.toString(), acc2.toString()
+                ));
             }
         }
         catch (InterruptedException e) {
